@@ -10,11 +10,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 'ai-reviewer',
-    title: 'AI Code Reviewer',
+    title: 'AI Local Reviewer',
     description:
-      'GitHub App that automatically reviews pull requests using Claude API. Leaves inline comments, suggests improvements, and catches potential bugs — all without human intervention.',
-    tags: ['GitHub App', 'Claude API', 'Node.js', 'Webhooks'],
+      'GitHub App that automatically reviews pull requests using a local Ollama model. Uses RAG with Milvus vector DB, FastAPI for the webhook server, and ngrok to expose it publicly — runs entirely on your machine.',
+    tags: ['GitHub App', 'Ollama', 'Python', 'FastAPI', 'ngrok', 'Milvus', 'RAG', 'Docker'],
     path: '/projects/reviewer',
-    githubUrl: 'https://github.com/howitworks',
+    githubUrl: 'https://github.com/olhaarchai/ai-local-reviewer',
   },
 ]
