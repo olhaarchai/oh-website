@@ -88,10 +88,12 @@ SUMMARIZER_USE_LLM=false
 # --- Milvus (RAG) ---
 MILVUS_HOST=localhost
 MILVUS_PORT=19530
+MILVUS_RULES_PER_CATEGORY=4
+MILVUS_SCORE_THRESHOLD=1.5
 
 # --- LangGraph checkpointer ---
 CHECKPOINT_SQLITE_PATH=.data/reviewer_checkpoints.sqlite
-# CHECKPOINT_POSTGRES_DSN=postgresql+asyncpg://...
+# CHECKPOINT_POSTGRES_DSN=postgresql+asyncpg://user:pass@localhost:5432/dbname
 
 # --- Pipeline tuning ---
 WEB_SEARCH_MAX_RESULTS=5
@@ -99,6 +101,15 @@ READ_URL_MAX_CHARS=5000
 MAX_CRITIC_ITERATIONS=3
 AGENT_RECURSION_LIMIT=2
 ENABLED_AGENTS=security,style
+
+# --- Hybrid retrieval (dense + BM25, optional reranker) ---
+BM25_ENABLED=true
+DENSE_OVERFETCH_MULTIPLIER=3
+USE_RERANKER=false
+RERANKER_MODEL=cross-encoder/ms-marco-MiniLM-L-6-v2
+
+# --- Deterministic linter pass (ruff) before analysts ---
+LINTER_ENABLED=true
 
 LOG_LEVEL=INFO`,
   },
@@ -137,6 +148,14 @@ OLLAMA_BASE_URL=http://localhost:11434
 
 MILVUS_HOST=localhost
 MILVUS_PORT=19530
+MILVUS_RULES_PER_CATEGORY=4
+MILVUS_SCORE_THRESHOLD=1.5
+
+BM25_ENABLED=true
+DENSE_OVERFETCH_MULTIPLIER=3
+USE_RERANKER=false
+
+LINTER_ENABLED=true
 
 MAX_CRITIC_ITERATIONS=3
 ENABLED_AGENTS=security,style
@@ -227,13 +246,14 @@ export default function ReviewerPage() {
       </Typography>
 
       <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 760, mb: 2, lineHeight: 1.8 }}>
-        The pipeline: <strong>filter</strong> (drop vendor/lock files) →{' '}
-        <strong>retriever</strong> (RAG over curated rules in Milvus) →{' '}
+        The pipeline: <strong>filter</strong> (drop vendor/lock files) → deterministic{' '}
+        <strong>ruff linter pass</strong> (cheap, high-signal findings before any LLM runs) →{' '}
+        <strong>hybrid retriever</strong> (dense Milvus + BM25, optional cross-encoder reranker) →{' '}
         <strong>security analyst</strong> + <strong>style analyst</strong> (parallel, tool-capable LLMs with
-        web_search/read_url) → <strong>critic</strong> loop (re-runs analysts until valid output or MAX_CRITIC_ITERATIONS)
-        → optional <strong>HITL pause</strong> → <strong>summarizer</strong> → inline PR comments + summary review.
-        State is persisted per PR through a SQLite or Postgres checkpointer, so a review can be resumed after a
-        restart.
+        web_search / read_url) → <strong>critic</strong> loop (re-runs analysts until valid output or{' '}
+        <code>MAX_CRITIC_ITERATIONS</code>) → optional <strong>HITL pause</strong> →{' '}
+        <strong>summarizer</strong> → inline PR comments + summary review. State is persisted per PR through a
+        SQLite or Postgres checkpointer, so a review can be resumed after a restart.
       </Typography>
 
       <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 760, mb: 5, lineHeight: 1.8 }}>
