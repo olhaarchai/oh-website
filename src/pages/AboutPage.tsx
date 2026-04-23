@@ -30,7 +30,7 @@ export default function AboutPage() {
           <Stack direction="row" spacing={1} mt={1}>
             <Tooltip title="GitHub">
               <IconButton
-                href="https://github.com"
+                href="https://github.com/olhaarchai"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
@@ -41,7 +41,7 @@ export default function AboutPage() {
             </Tooltip>
             <Tooltip title="LinkedIn">
               <IconButton
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/olha-horobchenko-016702131/"
                 target="_blank"
                 rel="noopener noreferrer"
                 color="inherit"
