@@ -4,6 +4,11 @@
 
 Personal portfolio site built with React + Vite + MUI, deployed to GitHub Pages.
 
+## Links
+
+- GitHub: [github.com/olhaarchai](https://github.com/olhaarchai)
+- LinkedIn: [Olha Horobchenko](https://www.linkedin.com/in/olha-horobchenko-016702131/)
+
 ## Scripts
 
 ```bash
