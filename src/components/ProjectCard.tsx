@@ -1,4 +1,5 @@
 import { Card, CardContent, CardActions, Typography, Chip, Button, Stack, Box } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { useNavigate } from 'react-router-dom'
@@ -25,9 +26,25 @@ export default function ProjectCard({ project }: Props) {
       }}
     >
       <CardContent sx={{ flexGrow: 1 }}>
-        <Typography variant="h6" gutterBottom fontWeight={600}>
-          {project.title}
-        </Typography>
+        <Stack direction="row" alignItems="center" gap={1} flexWrap="wrap" sx={{ mb: 1 }}>
+          <Typography variant="h6" fontWeight={600}>
+            {project.title}
+          </Typography>
+          {project.inProgress && (
+            <Chip
+              label="🚧 In progress"
+              size="small"
+              sx={{
+                fontWeight: 600,
+                borderRadius: 1.5,
+                border: 1,
+                borderColor: 'success.main',
+                bgcolor: (theme) => alpha(theme.palette.success.main, 0.12),
+                color: 'success.main',
+              }}
+            />
+          )}
+        </Stack>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           {project.description}
         </Typography>

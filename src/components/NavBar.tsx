@@ -37,7 +37,7 @@ export default function NavBar() {
 
   return (
     <>
-      <AppBar position="sticky" elevation={0} sx={{ backdropFilter: 'blur(12px)', bgcolor: 'background.paper', borderBottom: '1px solid', borderColor: 'divider' }}>
+      <AppBar position="sticky" elevation={0} sx={{ backdropFilter: 'blur(12px)', bgcolor: 'background.paper', color: 'text.primary', borderBottom: '1px solid', borderColor: 'divider' }}>
         <Toolbar>
           <Typography
             variant="h6"

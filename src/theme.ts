@@ -5,14 +5,14 @@ export const getTheme = (mode: 'light' | 'dark') =>
     palette: {
       mode,
       primary: {
-        main: mode === 'dark' ? '#7c4dff' : '#5e35b1',
+        main: mode === 'dark' ? '#3b82f6' : '#1d4ed8',
       },
       secondary: {
-        main: mode === 'dark' ? '#00e5ff' : '#0097a7',
+        main: mode === 'dark' ? '#22d3ee' : '#0891b2',
       },
       background: {
-        default: mode === 'dark' ? '#0d0d1a' : '#f5f5f5',
-        paper: mode === 'dark' ? '#13132a' : '#ffffff',
+        default: mode === 'dark' ? '#0d1117' : '#f6f8fa',
+        paper: mode === 'dark' ? '#161b22' : '#ffffff',
       },
     },
     typography: {
