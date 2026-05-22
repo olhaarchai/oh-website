@@ -1,21 +1,11 @@
-import {
-  Box,
-  Typography,
-  Paper,
-  IconButton,
-  Tooltip,
-  Chip,
-  Stack,
-  Divider,
-  Button,
-} from '@mui/material'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import { Box, Typography, Paper, Chip, Stack, Divider, Button } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import SecurityIcon from '@mui/icons-material/Security'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-import { useState } from 'react'
+import PipelineFlow from '../components/PipelineFlow'
 
 const tags = [
-  'Google ADK',
+  'ADK',
   'Gemini',
   'MCP',
   'Python',
@@ -27,60 +17,20 @@ const tags = [
   'OSINT',
 ]
 
-const pipelineDiagram = `SequentialAgent  "kotiq_pipeline"
-│
-├─ 1. IngestAgent          tarball → single-use Docker container → IngestManifest
-│
-├─ 2. ParallelAgent
-│      ├─ StaticAnalysisAgent   → List[RiskFinding]
-│      └─ OSINTAgent (MCP)       → List[ReputationFinding]   (passive only)
-│
-└─ 3. ReporterAgent        → VerdictCard`
-
-const verdictModel = `Verdict   = SAFE | SUSPICIOUS | MALICIOUS | NEEDS_REVIEW
-Action    = ALLOW | ALLOW_WITH_WARNING | QUARANTINE | BLOCK
-Severity  = INFO | LOW | MEDIUM | HIGH | CRITICAL
-
-VerdictCard:
-  verdict, risk_score (0-100), recommended_action, summary,
-  top_findings[RiskFinding], reputation[ReputationFinding]`
-
-function CodeBlock({ code }: { code: string }) {
-  const [copied, setCopied] = useState(false)
-
-  const handleCopy = () => {
-    void navigator.clipboard.writeText(code)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  return (
-    <Paper
-      variant="outlined"
-      sx={{
-        position: 'relative',
-        mt: 1.5,
-        p: 2,
-        bgcolor: 'background.default',
-        fontFamily: 'monospace',
-        fontSize: '0.82rem',
-        whiteSpace: 'pre',
-        overflowX: 'auto',
-      }}
-    >
-      <Tooltip title={copied ? 'Copied!' : 'Copy'}>
-        <IconButton
-          size="small"
-          onClick={handleCopy}
-          sx={{ position: 'absolute', top: 8, right: 8 }}
-        >
-          <ContentCopyIcon fontSize="small" />
-        </IconButton>
-      </Tooltip>
-      {code}
-    </Paper>
-  )
-}
+const decisions: { title: string; body: string }[] = [
+  {
+    title: 'Isolation-first',
+    body: 'Install scripts never touch the host — every package is unpacked and inspected inside a single-use Docker container that is thrown away afterwards.',
+  },
+  {
+    title: 'Multi-agent',
+    body: 'A static-analysis agent and a reputation agent run in parallel and their findings are fused into one verdict, rather than asking a single prompt to do everything (ADK + Gemini).',
+  },
+  {
+    title: 'Passive OSINT only',
+    body: 'Reputation checks are strictly read-only via MCP — no active probing of registries or authors, so analysis never has side effects.',
+  },
+]
 
 export default function KotiqPage() {
   return (
@@ -98,52 +48,84 @@ export default function KotiqPage() {
         ))}
       </Stack>
 
-      <Button
+      <Paper
         variant="outlined"
-        startIcon={<OpenInNewIcon />}
-        href="https://kotiq.dev"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={{ mb: 4 }}
+        sx={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          mb: 3,
+          px: 1.75,
+          py: 0.75,
+          borderRadius: 2,
+          borderColor: 'success.main',
+          bgcolor: (theme) => alpha(theme.palette.success.main, 0.12),
+          color: 'success.main',
+          fontWeight: 600,
+          fontSize: '0.875rem',
+        }}
       >
-        kotiq.dev
-      </Button>
+        🚧 In active development — live demo coming soon.
+      </Paper>
+
+      <Box>
+        <Button
+          variant="outlined"
+          startIcon={<OpenInNewIcon />}
+          href="https://kotiq.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{ mb: 4 }}
+        >
+          Landing: kotiq.dev
+        </Button>
+      </Box>
 
       <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 760, mb: 2, lineHeight: 1.8 }}>
-        <strong>Kotiq</strong> is an AI sandbox that opens any npm package in isolation and decides whether it is{' '}
-        <strong>safe to run — before you run it</strong>. The primary target is the{' '}
-        <strong>"Contagious Interview" / Lazarus</strong> campaign: fake-recruiter repos and npm dependencies whose
-        install scripts quietly steal crypto wallets, seed phrases, and keys.
-      </Typography>
-
-      <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 760, mb: 2, lineHeight: 1.8 }}>
-        It is a <strong>multi-agent pipeline</strong> built on <strong>Google ADK</strong> + <strong>Gemini</strong>.
-        An <strong>IngestAgent</strong> unpacks the tarball inside a <strong>single-use Docker container</strong> (no
-        install scripts ever run on the host) and produces an <code>IngestManifest</code> — file tree, scripts,
-        dependencies, entrypoints and notable files (<code>.env</code>, <code>wallet*</code>, <code>keystore</code>…).
-        A <strong>ParallelAgent</strong> then runs a <strong>StaticAnalysisAgent</strong> and an{' '}
-        <strong>OSINTAgent</strong> (reputation via <strong>MCP</strong> — OSV, deps.dev, GHSA, typosquat checks,
-        passive only) side by side, and a <strong>ReporterAgent</strong> fuses their findings into a single{' '}
-        <code>VerdictCard</code>.
+        The <strong>"Contagious Interview" / Lazarus</strong> campaign is an active, real-world threat: attackers target
+        developers with fake job-interview repositories and npm dependencies whose install scripts quietly steal crypto
+        wallets, seed phrases, and keys.
       </Typography>
 
       <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 760, mb: 5, lineHeight: 1.8 }}>
-        Everything runs server-side and is deployed on <strong>Cloud Run</strong>; the agent is driven through the{' '}
-        ADK web UI. The design rule is strict: <strong>never execute install scripts on the host</strong>, all
-        execution is confined to a disposable container, and OSINT is read-only.
+        <strong>Kotiq</strong> is an AI sandbox that opens any npm package in isolation and decides whether it is{' '}
+        <strong>safe to run — before you run it</strong>.
       </Typography>
 
       <Divider sx={{ mb: 4 }} />
 
       <Typography variant="h5" fontWeight={600} gutterBottom>
-        Architecture
+        Approach &amp; key decisions
       </Typography>
-      <CodeBlock code={pipelineDiagram} />
+      <Stack component="ul" spacing={1.5} sx={{ maxWidth: 760, pl: 3, mt: 1, mb: 5 }}>
+        {decisions.map((d) => (
+          <Typography
+            key={d.title}
+            component="li"
+            variant="body1"
+            color="text.secondary"
+            sx={{ lineHeight: 1.8 }}
+          >
+            <strong>{d.title}</strong> — {d.body}
+          </Typography>
+        ))}
+      </Stack>
 
-      <Typography variant="h5" fontWeight={600} gutterBottom sx={{ mt: 5 }}>
-        Verdict model
+      <Typography variant="h5" fontWeight={600} gutterBottom>
+        Flow
       </Typography>
-      <CodeBlock code={verdictModel} />
+      <Box sx={{ mt: 1, mb: 1.5 }}>
+        <PipelineFlow steps={['Isolate', 'Analyze (parallel)', 'Verdict']} />
+      </Box>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 5 }}>
+        Verdict: <strong>SAFE</strong> / <strong>SUSPICIOUS</strong> / <strong>MALICIOUS</strong>, with the findings
+        behind it.
+      </Typography>
+
+      <Divider sx={{ mb: 3 }} />
+
+      <Typography variant="body2" color="text.secondary">
+        <strong>Status:</strong> architecture designed; building the agent pipeline and Cloud Run deployment.
+      </Typography>
     </Box>
   )
 }
