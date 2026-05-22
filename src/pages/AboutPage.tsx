@@ -1,10 +1,12 @@
-import { Avatar, Box, Button, Chip, Divider, IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { Avatar, Box, Button, Chip, Divider, IconButton, Link, Stack, Tooltip, Typography } from '@mui/material'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 import VerifiedIcon from '@mui/icons-material/Verified'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { Link as RouterLink } from 'react-router-dom'
 import type { ReactNode } from 'react'
+import { projects } from '../data/projects'
 
 const certifications: { title: string; issuer: string; certUrl: string; credential: string; period: string }[] = [
   {
@@ -207,6 +209,40 @@ export default function AboutPage() {
           </Box>
         ))}
       </Stack>
+
+      <Divider sx={{ my: 5 }} />
+
+      <Typography variant="h5" gutterBottom fontWeight={600}>
+        Projects
+      </Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+        A few personal projects I've been building:
+      </Typography>
+      <Stack component="ul" spacing={1} sx={{ pl: 3, mt: 0, mb: 3 }}>
+        {projects
+          .filter((p) => !p.draft)
+          .map((p) => (
+            <Typography key={p.id} component="li" variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+              <Link component={RouterLink} to={p.path} color="primary" underline="hover" fontWeight={600}>
+                {p.title}
+              </Link>
+              {p.inProgress && (
+                <Box component="span" sx={{ color: 'text.disabled' }}>
+                  {' '}
+                  · in progress
+                </Box>
+              )}
+            </Typography>
+          ))}
+      </Stack>
+      <Button
+        component={RouterLink}
+        to="/projects"
+        size="small"
+        endIcon={<ArrowForwardIcon />}
+      >
+        View all projects
+      </Button>
     </Box>
   )
 }
