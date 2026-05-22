@@ -13,11 +13,13 @@ export default function ProjectsPage() {
       </Typography>
 
       <Grid container spacing={3}>
-        {projects.map((project) => (
-          <Grid key={project.id} item xs={12} sm={6} md={4}>
-            <ProjectCard project={project} />
-          </Grid>
-        ))}
+        {projects
+          .filter((project) => !project.draft)
+          .map((project) => (
+            <Grid key={project.id} item xs={12} sm={6} md={4}>
+              <ProjectCard project={project} />
+            </Grid>
+          ))}
       </Grid>
     </Box>
   )

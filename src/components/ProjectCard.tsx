@@ -1,5 +1,6 @@
 import { Card, CardContent, CardActions, Typography, Chip, Button, Stack, Box } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { useNavigate } from 'react-router-dom'
 import type { Project } from '../data/projects'
 
@@ -46,6 +47,18 @@ export default function ProjectCard({ project }: Props) {
           >
             Details
           </Button>
+          {project.liveUrl && (
+            <Button
+              size="small"
+              variant="outlined"
+              endIcon={<OpenInNewIcon />}
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Live
+            </Button>
+          )}
         </Box>
       </CardActions>
     </Card>

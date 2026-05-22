@@ -3,6 +3,7 @@ import Layout from './components/Layout'
 import AboutPage from './pages/AboutPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ReviewerPage from './pages/ReviewerPage'
+import KotiqPage from './pages/KotiqPage'
 
 export const router = createHashRouter([
   {
@@ -12,6 +13,7 @@ export const router = createHashRouter([
       { index: true, element: <AboutPage /> },
       { path: 'projects', element: <ProjectsPage /> },
       { path: 'projects/reviewer', element: <ReviewerPage /> },
+      { path: 'projects/kotiq', element: <KotiqPage /> },
     ],
   },
 ])
