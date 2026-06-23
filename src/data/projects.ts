@@ -24,15 +24,13 @@ export const projects: Project[] = [
   },
   {
     id: 'kotiq',
-    title: 'Kotiq',
+    title: 'Kotiq Guard',
     description:
-      'AI sandbox (in development) that opens any npm package in isolation to decide whether it is safe to run — before it runs. The designed ADK multi-agent pipeline ingests the tarball into a single-use Docker container, runs static analysis + passive OSINT (via MCP) in parallel, and returns a verdict card (SAFE / SUSPICIOUS / MALICIOUS). Primary focus: catching "Contagious Interview" / Lazarus malware that steals crypto wallets, seed phrases, and keys.',
-    tags: ['ADK', 'Gemini', 'MCP', 'Python', 'Docker', 'Cloud Run', 'Multi-agent', 'Security', 'Static analysis', 'OSINT'],
+      'Browser extension that checks an npm package or GitHub repository before you install or open it — reading it passively, never executing the code — and shows a clear verdict right on the page. A LangGraph multi-agent analyst ⇄ critic loop explains why in plain language. Runs in the cloud (GCP Cloud Run + Vertex AI Gemini) or fully local (Ollama). I designed and provisioned the whole GCP backend as code with Pulumi — keyless CI/CD, least-privilege IAM, separate dev/prod. Built for the Google AI Agents Hackathon; live in beta.',
+    tags: ['Chrome extension', 'LangGraph', 'Node.js', 'Fastify', 'Vertex AI', 'Ollama', 'GCP', 'Cloud Run', 'Pulumi', 'Multi-agent', 'Security'],
     path: '/projects/kotiq',
     liveUrl: 'https://kotiq.dev',
-    inProgress: true,
-    // Repo is private; no public GitHub link.
-    // Hidden until there is a live deployment + demo video. Flip to false to publish.
+    githubUrl: 'https://github.com/kotiqdev/kotiq-guard',
     draft: false,
   },
 ]
