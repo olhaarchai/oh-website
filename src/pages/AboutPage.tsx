@@ -37,26 +37,48 @@ const skillGroups: { group: string; items: string[] }[] = [
   { group: 'Backend', items: ['Node.js', 'NestJS', 'Express', 'Python', 'FastAPI', 'REST & GraphQL'] },
   {
     group: 'Cloud & DevOps',
-    items: ['AWS (Lambda, API Gateway, SQS, DynamoDB, S3, CDK)', 'Serverless', 'Docker', 'CI/CD'],
+    items: [
+      'AWS (Lambda, API Gateway, SQS, DynamoDB, S3, CDK)',
+      'GCP (Cloud Run, Vertex AI, Firestore)',
+      'IaC: AWS CDK + Pulumi',
+      'Keyless CI/CD (Workload Identity Federation)',
+      'GitHub Actions',
+      'Serverless',
+      'Docker',
+    ],
   },
-  { group: 'Data', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'DynamoDB'] },
+  { group: 'Data', items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'DynamoDB', 'pgvector', 'Milvus'] },
   {
     group: 'AI / LLM',
     items: [
       'LangChain/LangGraph',
+      'Multi-agent',
+      'RAG (pgvector, Milvus + BM25)',
+      'llama.cpp',
+      'Ollama',
+      'Vertex AI (Gemini)',
       'OpenAI',
       'Anthropic',
-      'RAG',
-      'PgVector',
-      'Milvus',
-      'LlamaIndex',
-      'Multi-agent',
       'Claude Code',
     ],
   },
 ]
 
 const aiHighlights: { title: string; body: ReactNode }[] = [
+  {
+    title: 'Kotiq Guard (live beta)',
+    body: (
+      <>
+        a Google-hackathon security agent — a LangGraph multi-agent analyst ⇄ critic loop that flags risky npm/GitHub
+        packages before you install them; runs on GCP (Cloud Run + Vertex AI) or fully local (Ollama), with the cloud
+        infrastructure built as code in Pulumi (
+        <RouterLink to="/projects/kotiq" style={{ color: 'inherit' }}>
+          details
+        </RouterLink>
+        ).
+      </>
+    ),
+  },
   {
     title: 'AI Local Reviewer (open-source)',
     body: (
@@ -71,12 +93,12 @@ const aiHighlights: { title: string; body: ReactNode }[] = [
     ),
   },
   {
-    title: 'OpenAI + RAG (PgVector)',
+    title: 'OpenAI + RAG (LangChain, pgvector)',
     body: 'integrated into a NestJS backend for an internal AI chat assistant.',
   },
   {
-    title: 'Local-LLM POC (Python / FastAPI)',
-    body: 'RAG and semantic search with LlamaIndex and PostgreSQL/PgVector.',
+    title: 'Local-LLM PoC (Python) — built solo',
+    body: 'a local LLM via llama.cpp with a hand-rolled RAG pipeline (no framework), Celery for async, and Redis memory.',
   },
   {
     title: 'AI-assisted development',
