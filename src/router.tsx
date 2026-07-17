@@ -4,6 +4,7 @@ import AboutPage from './pages/AboutPage'
 import ProjectsPage from './pages/ProjectsPage'
 import ReviewerPage from './pages/ReviewerPage'
 import KotiqPage from './pages/KotiqPage'
+import TranslatePage from './pages/TranslatePage'
 
 export const router = createHashRouter([
   {
@@ -14,6 +15,7 @@ export const router = createHashRouter([
       { path: 'projects', element: <ProjectsPage /> },
       { path: 'projects/reviewer', element: <ReviewerPage /> },
       { path: 'projects/kotiq', element: <KotiqPage /> },
+      { path: 'projects/translate', element: <TranslatePage /> },
     ],
   },
 ])
