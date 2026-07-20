@@ -71,10 +71,19 @@ export default function TranslatePage() {
           fontSize: '0.875rem',
         }}
       >
-        🚧 Feature-complete · preparing for the Chrome Web Store
+        ✅ Live on the Chrome Web Store
       </Paper>
 
       <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap sx={{ mb: 4 }}>
+        <Button
+          variant="contained"
+          startIcon={<OpenInNewIcon />}
+          href="https://chromewebstore.google.com/detail/kotiq-translate/cfghgmkldfloilblngojggjlnaefjkaj"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Chrome Web Store
+        </Button>
         <Button
           variant="outlined"
           startIcon={<OpenInNewIcon />}
@@ -140,9 +149,9 @@ export default function TranslatePage() {
       <Divider sx={{ mb: 3 }} />
 
       <Typography variant="body2" color="text.secondary">
-        <strong>Status:</strong> feature-complete and preparing for the Chrome Web Store. Manifest V3 in
-        TypeScript, built with esbuild and unit-tested with Vitest. Desktop Chrome 138+ (the built-in
-        translation APIs are desktop-only).
+        <strong>Status:</strong> published on the Chrome Web Store. Manifest V3 in TypeScript, built with
+        esbuild and unit-tested with Vitest. Desktop Chrome 138+ (the built-in translation APIs are
+        desktop-only).
       </Typography>
     </Box>
   )
