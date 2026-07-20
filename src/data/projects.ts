@@ -37,11 +37,10 @@ export const projects: Project[] = [
     id: 'kotiq-translate',
     title: 'Kotiq Translate',
     description:
-      'Chrome extension that translates any text you select fully on-device, using the browser’s built-in Translator and Language Detector APIs — no network calls, no backend, no accounts, no telemetry. Looked-up words are saved to a personal vocabulary (IndexedDB) you review with flashcards, and text is read aloud with on-device voices only. Built on Manifest V3 in TypeScript — service worker, content script, and side panel — with an esbuild pipeline and Vitest unit tests. Privacy-first by construction. Preparing for the Chrome Web Store.',
+      'Chrome extension that translates any text you select fully on-device, using the browser’s built-in Translator and Language Detector APIs — no network calls, no backend, no accounts, no telemetry. Looked-up words are saved to a personal vocabulary (IndexedDB) you review with flashcards, and text is read aloud with on-device voices only. Built on Manifest V3 in TypeScript — service worker, content script, and side panel — with an esbuild pipeline and Vitest unit tests. Privacy-first by construction. Published on the Chrome Web Store.',
     tags: ['Chrome extension', 'Manifest V3', 'TypeScript', 'On-device AI', 'Built-in Translator API', 'Side panel', 'IndexedDB', 'Web Speech', 'esbuild', 'Vitest', 'Privacy-first'],
     path: '/projects/translate',
-    liveUrl: 'https://kotiq.dev/kotiq-translate/',
+    liveUrl: 'https://chromewebstore.google.com/detail/kotiq-translate/cfghgmkldfloilblngojggjlnaefjkaj',
     githubUrl: 'https://github.com/olhaarchai/ext-translator',
-    inProgress: true,
   },
 ]
